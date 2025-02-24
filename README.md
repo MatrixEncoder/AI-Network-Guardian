@@ -23,5 +23,3 @@ This project aims to optimize public sector networks using AI-driven predictive 
 - Use the network monitoring tools to gather metrics.
 - Implement the optimization algorithms to enhance resource allocation.
 
-## Contribution
-Feel free to contribute to this project by submitting issues or pull requests!
