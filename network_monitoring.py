@@ -147,6 +147,16 @@ def run_streamlit_app():
                 st.write(f'Average Latency: {avg_latency:.2f} ms')
                 st.write(f'Average Throughput: {avg_throughput:.2f} Mbps')
                 st.line_chart(network_data.set_index('Time'))
+                # Display data in a table
+                st.subheader('Network Data Table')
+                # Apply consistent styling to the dataframe
+                styled_network_df = network_data.style.set_properties(**{
+                    'white-space': 'pre-wrap',
+                    'text-align': 'left'
+                })
+                
+                # Display the styled dataframe with specific dimensions
+                st.dataframe(styled_network_df, height=400, width=800)
                 st.write('Latency (ms) and Throughput (Mbps) over time. Monitoring these metrics is crucial for maintaining optimal network performance.')
                 if st.button('Export to Excel'):
                     export_to_excel(network_data[['Time', 'Latency', 'Throughput']], 'network_data.xlsx')
@@ -166,9 +176,24 @@ def run_streamlit_app():
                 avg_cost = cost_data.mean()
                 st.write(f'Average Cost: {avg_cost:.2f} USD')
                 st.line_chart(cost_data)
+                # Display data in a table
+                st.subheader('Cost Data Table')
+                cost_df = pd.DataFrame({
+                    'Sample': range(num_samples),
+                    'Cost (USD)': cost_data
+                })
+                
+                # Apply consistent styling to the dataframe
+                styled_cost_df = cost_df.style.set_properties(**{
+                    'white-space': 'pre-wrap',
+                    'text-align': 'left'
+                })
+                
+                # Display the styled dataframe with specific dimensions
+                st.dataframe(styled_cost_df, height=400, width=800)
                 st.write('Estimated costs based on network usage and inefficiencies. This data can help identify areas for cost reduction and efficiency improvements.')
                 if st.button('Export to Excel'):
-                    export_to_excel(pd.DataFrame({'Cost (USD)': cost_data}), 'cost_data.xlsx')
+                    export_to_excel(cost_df, 'cost_data.xlsx')
                     st.success('Downloaded cost_data.xlsx')
             except Exception as e:
                 logging.error(f'Error fetching cost data: {e}')
@@ -185,9 +210,24 @@ def run_streamlit_app():
                 avg_energy = energy_data.mean()
                 st.write(f'Average Energy Consumption: {avg_energy:.2f} units')
                 st.line_chart(energy_data)
+                # Display data in a table
+                st.subheader('Energy Data Table')
+                energy_df = pd.DataFrame({
+                    'Sample': range(num_samples),
+                    'Energy Consumption': energy_data
+                })
+                
+                # Apply consistent styling to the dataframe
+                styled_energy_df = energy_df.style.set_properties(**{
+                    'white-space': 'pre-wrap',
+                    'text-align': 'left'
+                })
+                
+                # Display the styled dataframe with specific dimensions
+                st.dataframe(styled_energy_df, height=400, width=800)
                 st.write('Energy consumption metrics. Reducing energy consumption not only lowers costs but also contributes to sustainability efforts.')
                 if st.button('Export to Excel'):
-                    export_to_excel(pd.DataFrame({'Energy Consumption': energy_data}), 'energy_data.xlsx')
+                    export_to_excel(energy_df, 'energy_data.xlsx')
                     st.success('Downloaded energy_data.xlsx')
             except Exception as e:
                 logging.error(f'Error fetching energy data: {e}')
@@ -202,7 +242,21 @@ def run_streamlit_app():
                 time.sleep(1)  # Simulating data fetching delay
                 fault_data = simulate_fault_prediction(num_samples)
                 fault_data['Cause'] = fault_data['Cause'].astype(str)  # Ensure Cause column is treated as string
-                st.dataframe(fault_data.style.set_table_attributes('style="width: 100%;"'))  # Set table width to 100%
+                # Create a custom CSS for the dataframe with specific column widths
+                # Specifically make the Cause column much wider
+                custom_css = {
+                    "selector": "th:nth-child(4), td:nth-child(4)",  # Target the 4th column (Cause)
+                    "props": [("min-width", "300px"), ("width", "300px")]
+                }
+                
+                # Apply the styling to the dataframe
+                styled_df = fault_data.style.set_properties(**{
+                    'white-space': 'pre-wrap',
+                    'text-align': 'left'
+                }).set_table_styles([custom_css])
+                
+                # Display the styled dataframe with a specific height to ensure scrollability
+                st.dataframe(styled_df, height=400, width=800)
                 st.write('Fault prediction metrics. This data can help identify potential equipment failures and enable proactive repairs.')
                 if st.button('Export to Excel'):
                     export_to_excel(pd.DataFrame(fault_data), 'fault_data.xlsx')
