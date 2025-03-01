@@ -1,6 +1,8 @@
-tensorflow==2.10.0
-pytorch==1.12.1
-kafka-python==2.0.2
-numpy==1.21.2
-scikit-learn==1.0.2
-prometheus_client==0.14.1
+kafka-python
+requests
+streamlit
+numpy
+pandas
+tensorflow
+scikit-learn
+xlsxwriter
