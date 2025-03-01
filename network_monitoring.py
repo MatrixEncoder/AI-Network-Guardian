@@ -79,7 +79,10 @@ def export_to_excel(data, filename):
         worksheet = writer.sheets['Data']
         # Set column widths for better visibility
         for i, col in enumerate(data.columns):
-            max_len = max(data[col].astype(str).map(len).max(), len(col)) + 2  # Add some padding
+            if col == 'Cause':
+                max_len = max(data[col].astype(str).map(len).max(), len(col)) + 15  # Add more padding for longer text
+            else:
+                max_len = max(data[col].astype(str).map(len).max(), len(col)) + 5  # Add more padding for longer text
             worksheet.set_column(i, i, max_len)
 
 # Streamlit app layout
@@ -91,7 +94,7 @@ def run_streamlit_app():
     # Team information
     st.write('Team Name: Dynamic Duo')
     st.write('Team Members:')
-    st.write('1: Suryansh Srivastava 👑')
+    st.write('1: Suryansh Srivastava ')
     st.write('2: Saiyed Shizain')
 
     # Column navigation layout
@@ -146,7 +149,7 @@ def run_streamlit_app():
                 st.line_chart(network_data.set_index('Time'))
                 st.write('Latency (ms) and Throughput (Mbps) over time. Monitoring these metrics is crucial for maintaining optimal network performance.')
                 if st.button('Export to Excel'):
-                    export_to_excel(network_data, 'network_data.xlsx')
+                    export_to_excel(network_data[['Time', 'Latency', 'Throughput']], 'network_data.xlsx')
                     st.success('Downloaded network_data.xlsx')
             except Exception as e:
                 logging.error(f'Error fetching network data: {e}')
@@ -165,7 +168,7 @@ def run_streamlit_app():
                 st.line_chart(cost_data)
                 st.write('Estimated costs based on network usage and inefficiencies. This data can help identify areas for cost reduction and efficiency improvements.')
                 if st.button('Export to Excel'):
-                    export_to_excel(pd.DataFrame(cost_data, columns=["Cost (USD)"], index=False), 'cost_data.xlsx')
+                    export_to_excel(pd.DataFrame({'Cost (USD)': cost_data}), 'cost_data.xlsx')
                     st.success('Downloaded cost_data.xlsx')
             except Exception as e:
                 logging.error(f'Error fetching cost data: {e}')
@@ -184,7 +187,7 @@ def run_streamlit_app():
                 st.line_chart(energy_data)
                 st.write('Energy consumption metrics. Reducing energy consumption not only lowers costs but also contributes to sustainability efforts.')
                 if st.button('Export to Excel'):
-                    export_to_excel(pd.DataFrame(energy_data, columns=["Energy Consumption"], index=False), 'energy_data.xlsx')
+                    export_to_excel(pd.DataFrame({'Energy Consumption': energy_data}), 'energy_data.xlsx')
                     st.success('Downloaded energy_data.xlsx')
             except Exception as e:
                 logging.error(f'Error fetching energy data: {e}')
@@ -198,10 +201,11 @@ def run_streamlit_app():
                 logging.debug('Fetching fault prediction data...')
                 time.sleep(1)  # Simulating data fetching delay
                 fault_data = simulate_fault_prediction(num_samples)
-                st.write(fault_data)  # Display data in table format
+                fault_data['Cause'] = fault_data['Cause'].astype(str)  # Ensure Cause column is treated as string
+                st.dataframe(fault_data.style.set_table_attributes('style="width: 100%;"'))  # Set table width to 100%
                 st.write('Fault prediction metrics. This data can help identify potential equipment failures and enable proactive repairs.')
                 if st.button('Export to Excel'):
-                    export_to_excel(fault_data, 'fault_data.xlsx')
+                    export_to_excel(pd.DataFrame(fault_data), 'fault_data.xlsx')
                     st.success('Downloaded fault_data.xlsx')
             except Exception as e:
                 logging.error(f'Error fetching fault prediction data: {e}')
