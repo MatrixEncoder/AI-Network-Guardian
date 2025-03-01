@@ -94,7 +94,7 @@ def run_streamlit_app():
     # Team information
     st.write('Team Name: Dynamic Duo')
     st.write('Team Members:')
-    st.write('1: Suryansh Srivastava ')
+    st.write('1: Suryansh Srivastava 👑')
     st.write('2: Saiyed Shizain')
 
     # Column navigation layout
@@ -179,7 +179,7 @@ def run_streamlit_app():
                 # Display data in a table
                 st.subheader('Cost Data Table')
                 cost_df = pd.DataFrame({
-                    'Sample': range(num_samples),
+                    'Cost Sample': range(num_samples),  # Renamed column
                     'Cost (USD)': cost_data
                 })
                 
@@ -213,8 +213,8 @@ def run_streamlit_app():
                 # Display data in a table
                 st.subheader('Energy Data Table')
                 energy_df = pd.DataFrame({
-                    'Sample': range(num_samples),
-                    'Energy Consumption': energy_data
+                    'Energy Sample': range(num_samples),  # Renamed column
+                    'Energy Consumption (in Units)': energy_data
                 })
                 
                 # Apply consistent styling to the dataframe
