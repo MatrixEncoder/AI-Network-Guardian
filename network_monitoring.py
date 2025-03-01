@@ -89,7 +89,7 @@ def export_to_excel(data, filename):
 def run_streamlit_app():
     st.set_page_config(page_title='AI Powered Network Guardian', layout='wide')
     st.title('AI Powered Network Guardian')
-    st.image('C:\\AI Network Guardian\\path-to-logo.webp', width=100)
+    st.image('path-to-logo.webp', width=100)  # Use relative path for the image
 
     # Team information
     st.write('Team Name: Dynamic Duo')
