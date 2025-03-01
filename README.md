@@ -87,5 +87,3 @@ Our AI-powered Network Guardian leverages machine learning and predictive analyt
      - Verify that all Excel files are present in the project directory
      - Check file permissions
 
-## Contribution
-Feel free to contribute to this project by submitting issues or pull requests!
