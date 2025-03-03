@@ -92,10 +92,10 @@ def run_streamlit_app():
     st.image('path-to-logo.webp', width=100)  # Use relative path for the image
 
     # Team information
-    st.write('Team Name: Threat Al-liance')
+    st.write('Team Name: Dynamic Duo')
     st.write('Team Members:')
     st.write('1: Suryansh Srivastava 👑')
-    st.write('2: Ashutosh Sharma')
+    st.write('2: Saiyed Shizain')
 
     # Column navigation layout
     col1, col2, col3, col4, col5, col6 = st.columns(6)
